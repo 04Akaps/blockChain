@@ -112,3 +112,27 @@ func (iter *BlockChainIterator) Next() *Block {
 
 	return block
 }
+
+func (iter *BlockChainIterator) GetByPrevHash(prevHash []byte) *Block {
+	var block *Block
+
+	err := iter.Database.View(func(tx *badger.Txn) error {
+		item, err := tx.Get(prevHash)
+
+		if err != nil {
+			return nil
+		}
+
+		encodedBlock, err := item.ValueCopy(key)
+
+		block = Deserialize(encodedBlock)
+
+		return err
+	})
+
+	if err != nil {
+		return nil
+	}
+
+	return block
+}

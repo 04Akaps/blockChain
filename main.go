@@ -36,7 +36,6 @@ func (cli *Commandline) addBlock(data string) {
 
 func (cli *Commandline) printChain() {
 	iter := cli.blockchain.Iterator()
-
 	block := iter.Next()
 
 	fmt.Println("\n")
@@ -51,6 +50,24 @@ func (cli *Commandline) printChain() {
 
 func (cli *Commandline) printAllChain() {
 	fmt.Println("Print All Blocks")
+	iter := cli.blockchain.Iterator()
+	block := iter.Next() // 가장 최근 블록을 가져 온다.
+
+	for {
+
+		fmt.Println("\n")
+		fmt.Printf("prev Hash  ----> %x \n", block.PrevHash)
+		fmt.Printf("Data In Block ----> %s \n", block.Data)
+		fmt.Printf("Hash  ---->  %x\n", block.Hash)
+
+		pow := blockchain.NewProof(block)
+		fmt.Printf("Pow:  ----> %s\n", strconv.FormatBool(pow.Validate()))
+
+		block = iter.GetByPrevHash(block.PrevHash)
+		if block == nil {
+			return
+		}
+	}
 
 }
 
