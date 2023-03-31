@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 
 	block "goChain/blockChain"
 	blockchain "goChain/blockChain"
@@ -96,12 +97,12 @@ func (cli *Commandline) run() {
 	}
 
 	if addBlockCmd.Parsed() {
+		blockData := strings.Join(addBlockCmd.Args(), " ")
 		if *addBlockData == "" {
 			addBlockCmd.Usage()
 			runtime.Goexit()
 		}
-
-		cli.addBlock(*addBlockData)
+		cli.addBlock(*addBlockData + blockData)
 	}
 
 	if printChainCmd.Parsed() {
