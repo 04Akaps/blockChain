@@ -55,7 +55,6 @@ func InitBlockChain() *BlockChain {
 			return err
 		}
 	})
-
 	ErrorHandle(err)
 
 	return &BlockChain{LastHash: lastHash, Database: db}

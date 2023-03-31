@@ -36,22 +36,21 @@ func (cli *Commandline) addBlock(data string) {
 func (cli *Commandline) printChain() {
 	iter := cli.blockchain.Iterator()
 
-	for {
+	block := iter.Next()
 
-		block := iter.Next()
+	fmt.Println("\n")
+	fmt.Printf("prev Hash %x\n", block.PrevHash)
+	fmt.Printf("Data In Block %s\n", block.Data)
+	fmt.Printf("Hash  %x\n", block.Hash)
 
-		fmt.Println("\n")
-		fmt.Printf("prev Hash %x\n", block.PrevHash)
-		fmt.Printf("Data In Block %s\n", block.Data)
-		fmt.Printf("Hash  %x\n", block.Hash)
+	pow := blockchain.NewProof(block)
+	fmt.Printf("Pow: %s\n", strconv.FormatBool(pow.Validate()))
+	fmt.Println("\n")
 
-		pow := blockchain.NewProof(block)
-		fmt.Printf("Pow: %s\n", strconv.FormatBool(pow.Validate()))
+	//if len(block.PrevHash) == 0 {
+	//	break
+	//}
 
-		if len(block.PrevHash) == 0 {
-			break
-		}
-	}
 }
 
 func (cli *Commandline) run() {
@@ -85,6 +84,7 @@ func (cli *Commandline) run() {
 	}
 
 	if printChainCmd.Parsed() {
+		// print를 입력했을 떄
 		cli.printChain()
 	}
 }
