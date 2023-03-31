@@ -19,6 +19,7 @@ func (cli *Commandline) printUsage() {
 	fmt.Println("Usage:")
 	fmt.Println(" add -block Block_data - add a block to the chain")
 	fmt.Println(" print - Prints the blocks in the chain")
+	fmt.Println(" printAll - Prints All the blocks in the chain")
 }
 
 func (cli *Commandline) validateArgs() {
@@ -46,10 +47,10 @@ func (cli *Commandline) printChain() {
 	pow := blockchain.NewProof(block)
 	fmt.Printf("Pow: %s\n", strconv.FormatBool(pow.Validate()))
 	fmt.Println("\n")
+}
 
-	//if len(block.PrevHash) == 0 {
-	//	break
-	//}
+func (cli *Commandline) printAllChain() {
+	fmt.Println("Print All Blocks")
 
 }
 
@@ -58,6 +59,7 @@ func (cli *Commandline) run() {
 
 	addBlockCmd := flag.NewFlagSet("add", flag.ExitOnError)
 	printChainCmd := flag.NewFlagSet("print", flag.ExitOnError)
+	printAllChainCmd := flag.NewFlagSet("printAll", flag.ExitOnError)
 	addBlockData := addBlockCmd.String("block", "", "Block data")
 
 	switch os.Args[1] {
@@ -68,7 +70,9 @@ func (cli *Commandline) run() {
 	case "print":
 		err := printChainCmd.Parse(os.Args[2:])
 		blockchain.ErrorHandle(err)
-
+	case "printAll":
+		err := printAllChainCmd.Parse(os.Args[2:])
+		blockchain.ErrorHandle(err)
 	default:
 		cli.printUsage()
 		runtime.Goexit()
@@ -86,6 +90,11 @@ func (cli *Commandline) run() {
 	if printChainCmd.Parsed() {
 		// print를 입력했을 떄
 		cli.printChain()
+	}
+
+	if printAllChainCmd.Parsed() {
+		// printAll를 입력했을 떄
+		cli.printAllChain()
 	}
 }
 
