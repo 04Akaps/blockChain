@@ -10,7 +10,7 @@ import (
 	"math/big"
 )
 
-const Difficulty = 12
+const Difficulty = 20
 
 // 채굴 어려움을 의미
 // 원래는 알고리즘에 의해서 달라지는 값이어야 함
@@ -22,10 +22,8 @@ type ProofOfWork struct {
 
 func NewProof(b *Block) *ProofOfWork {
 	target := big.NewInt(1)
-
 	target.Lsh(target, uint(256-Difficulty))
 	// Lsh는 target를 target=x<=n으로 만들고 target을 반환
-
 	return &ProofOfWork{b, target}
 }
 
@@ -33,7 +31,7 @@ func (pow *ProofOfWork) InitData(nonce int) []byte {
 	return bytes.Join(
 		[][]byte{
 			pow.Block.PrevHash,
-			pow.Block.Data,
+			pow.Block.HashTransactions(),
 			ToHex(int64(nonce)),
 			ToHex(int64(Difficulty)),
 		},
