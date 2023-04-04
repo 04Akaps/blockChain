@@ -1,4 +1,4 @@
-module goChain
+module github.com/jjimgo/blockChain.git
 
 go 1.19
 
