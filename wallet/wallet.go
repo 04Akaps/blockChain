@@ -5,7 +5,6 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
-	"fmt"
 	blockchain "github.com/jjimgo/blockChain.git/blockChain"
 	"golang.org/x/crypto/ripemd160"
 )
@@ -28,10 +27,6 @@ func (w Wallet) Address() []byte {
 
 	fullHash := append(versionedHash, checksum...)
 	address := Base58Encode(fullHash)
-
-	fmt.Printf("pub key: %x\n", w.PublicKey)
-	fmt.Printf("pub hash : %x\n", pubHash)
-	fmt.Printf("addresss: %x\n", address)
 
 	return address
 }
@@ -60,6 +55,7 @@ func MakeWallet() *Wallet {
 func PublicKeyHash(pubKey []byte) []byte {
 	pubHash := sha256.Sum256(pubKey)
 	hasher := ripemd160.New()
+
 	_, err := hasher.Write(pubHash[:])
 
 	blockchain.ErrorHandle(err)
