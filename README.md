@@ -25,3 +25,6 @@ option으로는 다음과 같은 항목이 존재
 ### main 브랜치는 데이터를 처리하는 원장을 생성 가능
 
 ### sendToken 브랜치는 Token을 전송하는 원장을 생성 가능
+
+### walletModule 브랜치는 WalletModule을 생성 가능한 브랜치
+- go version이 1.18버전으로 다운그레이드 해야 사용 
